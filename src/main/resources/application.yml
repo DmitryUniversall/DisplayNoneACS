@@ -9,21 +9,20 @@ spring:
       enabled: true
 
   jpa:
-    generate-ddl: false
-    #generate-ddl: true
+    #generate-ddl: false
+    generate-ddl: true
 
     hibernate:
-      ddl-auto: none
-      #ddl-auto: create-drop
+      #ddl-auto: none
+      ddl-auto: create-drop
 
     # Показываем запросы
     show-sql: true
+
+    # Своевременный запуск data.sql
+    defer-datasource-initialization: true
 
   spring-doc:
     swagger-ui:
       path: /swagger-ui.html
       operationsSorter: method
-
-  liquibase:
-    enabled: true
-    change-log: classpath:db.changelog/db.changelog-master.xml
