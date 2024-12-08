@@ -1,28 +1,28 @@
 spring:
 
-  datasource:
-    url: jdbc:h2:mem:testdb
+    datasource:
+        url: jdbc:h2:mem:testdb
 
-  h2:
-    console:
-      #enabled: false
-      enabled: true
+    h2:
+        console:
+            #enabled: false
+            enabled: true
 
-  jpa:
-    #generate-ddl: false
-    generate-ddl: true
+    jpa:
+        #generate-ddl: false
+        generate-ddl: true
 
-    hibernate:
-      #ddl-auto: none
-      ddl-auto: create-drop
+        hibernate:
+            #ddl-auto: none
+            ddl-auto: create-drop
 
-    # Показываем запросы
-    show-sql: true
+        # Показываем запросы
+        show-sql: true
 
-    # Своевременный запуск data.sql
-    defer-datasource-initialization: true
+        # Своевременный запуск data.sql
+        defer-datasource-initialization: true
 
-  spring-doc:
-    swagger-ui:
-      path: /swagger-ui.html
-      operationsSorter: method
+    spring-doc:
+        swagger-ui:
+            path: /swagger-ui.html
+            operationsSorter: method
