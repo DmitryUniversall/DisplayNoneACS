@@ -23,8 +23,8 @@ public class EmployeeController {
     @GetMapping("/{login}/auth")
     public ResponseEntity<?> authenticateUser(@PathVariable String login) {
         return employeeService.findByLogin(login)
-                .map(user -> ResponseEntity.ok("Ok"))
-                .orElse(ResponseEntity.status(401).body("Unknown login"));
+                .map(user -> ResponseEntity.ok("[200] Ok"))
+                .orElse(ResponseEntity.status(401).body("[404] Unknown login"));
     }
 
     @GetMapping("/{login}/info")
@@ -41,15 +41,13 @@ public class EmployeeController {
         try {
             codeValue = Long.parseLong(payload.get("value"));
         } catch (NumberFormatException e) {
-            return ResponseEntity.status(400).body("Bad code format");
+            return ResponseEntity.status(400).body("[400] Bad code format");
         }
 
         return employeeService.findByLogin(login)
-                .map(user -> {
-                    return codeService.findByValue(codeValue)
-                            .map(code -> ResponseEntity.ok("Ok"))
-                            .orElse(ResponseEntity.status(400).body("Unknown code"));
-                })
-                .orElse(ResponseEntity.status(401).body("Unknown login"));
+                .map(user -> codeService.findByValue(codeValue)
+                        .map(code -> ResponseEntity.ok("[200] Ok"))
+                        .orElse(ResponseEntity.status(400).body("[404] Unknown code")))
+                .orElse(ResponseEntity.status(401).body("[404] Unknown login"));
     }
 }
