@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface EmployeeService {
     Optional<Employee> findByLogin(String login);
+
+    void saveEmployee(Employee employee);
 }

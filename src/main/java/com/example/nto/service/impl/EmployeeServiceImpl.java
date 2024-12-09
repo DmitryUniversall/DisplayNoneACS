@@ -18,4 +18,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Optional<Employee> findByLogin(String login) {
         return employeeRepository.findByLogin(login);
     }
+
+    @Override
+    public void saveEmployee(Employee employee) {
+        employeeRepository.save(employee);
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -15,26 +16,26 @@ public class EmployeeController {
     private final CodeService codeService;
 
     @Autowired
-    public EmployeeController(EmployeeService userService, CodeService codeService) {
-        this.employeeService = userService;
+    public EmployeeController(EmployeeService EmployeeService, CodeService codeService) {
+        this.employeeService = EmployeeService;
         this.codeService = codeService;
     }
 
-    @GetMapping("/{login}/auth")
-    public ResponseEntity<?> authenticateUser(@PathVariable String login) {
+    @GetMapping("/{login}/auth/")
+    public ResponseEntity<?> authenticateEmployee(@PathVariable String login) {
         return employeeService.findByLogin(login)
-                .map(user -> ResponseEntity.ok("[200] Ok"))
+                .map(Employee -> ResponseEntity.ok("[200] Ok"))
                 .orElse(ResponseEntity.status(401).body("[404] Unknown login"));
     }
 
-    @GetMapping("/{login}/info")
-    public ResponseEntity<?> getUserInfo(@PathVariable String login) {
+    @GetMapping("/{login}/info/")
+    public ResponseEntity<?> getEmployeeInfo(@PathVariable String login) {
         return employeeService.findByLogin(login)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(401).build());
     }
 
-    @PatchMapping("/{login}/open")
+    @PatchMapping("/{login}/open/")
     public ResponseEntity<?> open(@PathVariable String login, @RequestBody Map<String, String> payload) {
         long codeValue;
 
@@ -45,8 +46,12 @@ public class EmployeeController {
         }
 
         return employeeService.findByLogin(login)
-                .map(user -> codeService.findByValue(codeValue)
-                        .map(code -> ResponseEntity.ok("[200] Ok"))
+                .map(employee -> codeService.findByValue(codeValue)
+                        .map(code -> {
+                            employee.setLastVisit(LocalDateTime.now());
+                            employeeService.saveEmployee(employee);
+                            return ResponseEntity.ok("[200] Ok");
+                        })
                         .orElse(ResponseEntity.status(400).body("[404] Unknown code")))
                 .orElse(ResponseEntity.status(401).body("[404] Unknown login"));
     }

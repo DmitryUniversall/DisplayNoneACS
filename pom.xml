@@ -7,7 +7,6 @@
     <groupId>org.example</groupId>
     <artifactId>NTO-2024</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -53,5 +52,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+
 
 </project>
