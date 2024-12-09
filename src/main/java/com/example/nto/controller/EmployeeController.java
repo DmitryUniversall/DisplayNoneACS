@@ -21,21 +21,21 @@ public class EmployeeController {
         this.codeService = codeService;
     }
 
-    @GetMapping("/{login}/auth/")
+    @GetMapping("/{login}/auth")
     public ResponseEntity<?> authenticateEmployee(@PathVariable String login) {
         return employeeService.findByLogin(login)
                 .map(Employee -> ResponseEntity.ok("[200] Ok"))
                 .orElse(ResponseEntity.status(401).body("[404] Unknown login"));
     }
 
-    @GetMapping("/{login}/info/")
+    @GetMapping("/{login}/info")
     public ResponseEntity<?> getEmployeeInfo(@PathVariable String login) {
         return employeeService.findByLogin(login)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(401).build());
     }
 
-    @PatchMapping("/{login}/open/")
+    @PatchMapping("/{login}/open")
     public ResponseEntity<?> open(@PathVariable String login, @RequestBody Map<String, String> payload) {
         long codeValue;
 
